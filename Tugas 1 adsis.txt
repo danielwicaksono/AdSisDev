@@ -1,0 +1,46 @@
+#!/bin/bash
+
+formatBytes(){
+multiplier=0
+throughput=$1
+while (( $(echo "$throughput>1024" | bc -l) ))
+do
+	multiplier=$(($multiplier+1))
+	throughput=`echo "scale=3; $throughput/1024" | bc -l`
+done
+
+case $multiplier in
+	1)
+	echo "$throughput KBps"
+	;;
+	2)
+	echo "$throughput MBps"
+	;;
+	*)
+	echo "$1 Bps"
+	;;
+esac
+}
+
+ipAdd=`/sbin/ifconfig eth0 | grep "netmask" | cut -d " " -f10`
+netmask=`/sbin/ifconfig eth0 | grep "netmask" | cut -d " " -f13`
+defaultGateway=`netstat -r -n | grep "UG" | cut -d " " -f10`
+echo "Monitoring eth0 interface..."
+echo "IP Address: $ipAdd"
+echo "Netmask: $netmask"
+echo "Default Gateway: $defaultGateway"
+
+while true
+do
+	r1=`/sbin/ifconfig eth0 | grep "RX packets" | cut -d " " -f14`
+	t1=`/sbin/ifconfig eth0 | grep "TX packets" | cut -d " " -f14`
+	sleep 1
+	r2=`/sbin/ifconfig eth0 | grep "RX packets" | cut -d " " -f14`
+	t2=`/sbin/ifconfig eth0 | grep "TX packets" | cut -d " " -f14`
+	rx=$(formatBytes $(($r2-$r1)))
+	tx=$(formatBytes $(($t2-$t1)))
+	rxPackets=`/sbin/ifconfig eth0 | grep "RX packets" | cut -d " " -f11`
+	txPackets=`/sbin/ifconfig eth0 | grep "TX packets" | cut -d " " -f11`
+	echo "Rx: $rx, Tx: $tx"
+	echo "Received packets: $rxPackets, Transmitted packet: $txPackets"
+done
