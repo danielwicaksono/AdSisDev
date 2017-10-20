@@ -11,10 +11,13 @@ while [ $opt == "0" ] || [ $opt != "4" ]
 	echo "==============================================="
 	echo "Pilihan : "
 	read opt
+	
+	#fungsi ini untuk menampilkan fitur mana yang akan dipilih
         case $opt in
         1) clear;
 	   echo "++++++++++++++++++++Bandwith Monitoring++++++++++++++++++++"
 	   sleep 1;
+	   # Fungsi ini digunakan untuk mengubah fromat speed network dari Bytes ke Bps, KBps atau MBps
 	    formatSpeed(){
 		    multiplier=0
 		    throughput=$1
@@ -35,7 +38,7 @@ while [ $opt == "0" ] || [ $opt != "4" ]
 			    ;;
 		    esac
 	    }
-
+	    # Fungsi ini digunakan untuk mengubah format size ke Gigabyte atau Megabyte 
 	    formatSize(){
 		    size=$1
 		    if [ $size -ge 1024 ]; then
@@ -45,7 +48,7 @@ while [ $opt == "0" ] || [ $opt != "4" ]
 			    echo "$size MB"
 		    fi
 	    }
-
+	    #fungsi ini digunakan untuk menampilkan monitoring bandwith beserta CPU usage dan RAM usage
 	    while true
 	    do
 		    r1=`/sbin/ifconfig eth0 | grep "RX packets" | cut -d " " -f14`
@@ -76,7 +79,7 @@ while [ $opt == "0" ] || [ $opt != "4" ]
 	    done
 	    exit
            ;;
-	   
+	   #fungsi ini digunakan untuk menampilkan monitor hardware (Ram dan disk usage)
         2) clear;
             echo "-------------------Hardware Monitor-------------------"
 	    sleep 1;
@@ -86,12 +89,13 @@ while [ $opt == "0" ] || [ $opt != "4" ]
 	      ramUsed=`free -m | grep "Mem" | cut -d " " -f22`
 	      ramTotal=`free -m | grep "Mem" | cut -d " " -f12`
 	      ramUsedPercentage=$(($(($ramUsed*100))/$ramTotal))
+	      diskFree=''
 	      echo "Ram Usage: $ramUsedPercentage | Disk Usage: $diskUsage"
 	      sleep 1
 	      done
 	    exit;
 	    ;;
-
+	# fungsi ini digunakan untuk menampilkan monitor CPU(Processor)
         3) clear;
             echo "-------------------CPU Monitor-------------------"
             sleep 1;
