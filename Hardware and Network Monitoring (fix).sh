@@ -1,6 +1,7 @@
 #!/bin/sh
 opt=0
 
+# Meng-convert throughput yang defaultnya bps
 formatSpeed(){
 	multiplier=0
 	throughput=$1
@@ -22,6 +23,7 @@ formatSpeed(){
 	esac
 }
 
+# Meng-convert ukuran bit harddisk menjadi Byte
 formatSize(){
 	size=$1
 	if [ $size -ge 1024 ]; then
