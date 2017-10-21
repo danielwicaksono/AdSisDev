@@ -23,7 +23,7 @@ formatSpeed(){
 	esac
 }
 
-# Meng-convert ukuran bit harddisk menjadi Byte
+# Meng-convert ukuran harddisk menjadi GB atau MB
 formatSize(){
 	size=$1
 	if [ $size -ge 1024 ]; then
@@ -44,7 +44,7 @@ do
 	echo "3. RAM"
 	echo "4. EXIT"
 	# Membaca pilihan yang diinginkan oleh user
-	echo "Option: "
+	echo -e "Option: \c"
 	read opt
 	# Percabangan sesuai menu yang dipilih
         case $opt in
