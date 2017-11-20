@@ -33,7 +33,7 @@ formatSize(){
 }
 
 
-until [ $opt -gt 4 ]
+until [ $opt -ge 4 ]
 do
 	# Menampilkan menu utama
 	clear
