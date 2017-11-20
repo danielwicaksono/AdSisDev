@@ -53,5 +53,20 @@ do
 		    echo "Received packets: $rxPackets, Transmitted packet: $txPackets"
 		done
 	;;
+	# menampilkan informasi RAM (used, total, dan usage)
+    3)	while true
+		do
+			ramUsed=`free -m | grep "Mem" | cut -d " " -f22`
+			ramTotal=`free -m | grep "Mem" | cut -d " " -f12`
+			ramUsedPercentage=$(($(($ramUsed*100))/$ramTotal))
+			ramUsedFormatted=$(formatSize $ramUsed)
+			ramTotalFormatted=$(formatSize $ramTotal)
+			clear
+			echo "====================RAM Monitoring===================="
+			echo "Used: $ramUsedFormatted"
+			echo "Total: $ramTotalFormatted"
+			echo "Usage: $ramUsedPercentage%"
+		done
+	;;
 	esac
 done
