@@ -21,6 +21,17 @@ formatSpeed(){
 		;;
 	esac
 }
+# Meng-convert ukuran ram menjadi GB atau MB
+formatSize(){
+        size=$1
+        if [ $size -ge 1024 ]; then
+                size=`echo "scale=1; $size/1024" | bc -l`
+                echo "$size GB"
+        else
+                echo "$size MB"
+        fi
+}
+
 
 until [ $opt -gt 4 ]
 do
@@ -53,6 +64,18 @@ do
 		    echo "Received packets: $rxPackets, Transmitted packet: $txPackets"
 		done
 	;;
+	 # menampilkan CPU usage dan CPU temperature
+    	2)      while true
+                do
+                        cpuUsage=`top -bn1 | grep "load" | awk '{printf "%.2f%%\t\t\n", $(NF-2)}'`
+                        cpuTemp=`sensors | grep "Core 0" | cut -d " " -f10`
+                        clear
+                        echo "====================CPU Monitoring===================="
+                        echo "CPU Usage: $cpuUsage%"
+                        echo "CPU Temperature: $cpuTemp"
+                done
+        ;;
+
 	# menampilkan informasi RAM (used, total, dan usage)
     3)	while true
 		do
